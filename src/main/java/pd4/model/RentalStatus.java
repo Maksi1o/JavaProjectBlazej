@@ -1,4 +1,4 @@
-package pd4.service;
+package pd4.model;
 
 public enum RentalStatus {
     ACTIVE,

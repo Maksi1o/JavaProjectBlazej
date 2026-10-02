@@ -1,7 +1,8 @@
-package pd4.model;
+package pd4.service;
 
-import pd3.service.RentalStatus;
-import pd3.util.RentalSummary;
+import pd4.model.Rental;
+import pd4.model.RentalStatus;
+import pd4.util.RentalSummary;
 
 import java.util.ArrayList;
 import java.util.List;

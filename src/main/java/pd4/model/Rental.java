@@ -1,6 +1,5 @@
 package pd4.model;
 
-import pd3.service.RentalStatus;
 
 public class Rental {
     private final Resource resource;

@@ -1,6 +1,6 @@
 package pd4.util;
 
-import pd3.model.Resource;
+import pd4.model.Resource;
 
 import java.util.Comparator;
 
