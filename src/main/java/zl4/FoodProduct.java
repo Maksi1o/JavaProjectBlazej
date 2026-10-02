@@ -1,7 +1,12 @@
 package zl4;
 
 public class FoodProduct extends Product {
-    int expiryDate;
+    String expiryDate;
+
+    public FoodProduct(String name, int price, String category, String expiryDate) {
+        super(name, price, category);
+        this.expiryDate = expiryDate;
+    }
 
     @Override
     public String getDescription() {

@@ -1,7 +1,12 @@
 package zl4;
 
 public class Electronic extends Product {
-    int warranty;
+    String warranty;
+
+    public Electronic(String name, int price, String category, String warranty) {
+        super(name, price, category);
+        this.warranty = warranty;
+    }
 
     @Override
     public String getDescription() {

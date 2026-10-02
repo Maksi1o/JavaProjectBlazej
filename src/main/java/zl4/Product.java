@@ -5,7 +5,11 @@ public class Product {
     protected int price;
     protected String category;
 
-
+    public Product(String name, int price, String category) {
+        this.name = name;
+        this.price = price;
+        this.category = category;
+    }
 
     public String getDescription() {
         return "nazwa produktu: " + name
