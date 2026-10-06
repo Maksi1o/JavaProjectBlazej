@@ -7,6 +7,7 @@ import pd4.util.ResourceNameComparator;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class RentalApp {
@@ -41,7 +42,7 @@ public class RentalApp {
         for (Resource resource : resources) {
             System.out.println(resource.getName());
         }
-        Collections.sort(resources, new ResourceNameComparator());
+        Collections.sort(resources, Comparator.comparing(Resource::getName));
         System.out.println("Comparator: ");
         for (Resource resource : resources) {
             System.out.println(resource.getName());
