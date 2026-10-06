@@ -1,7 +1,7 @@
 package zl4;
 
 public class FoodProduct extends Product {
-    String expiryDate;
+    private final String expiryDate;
 
     public FoodProduct(String name, int price, String category, String expiryDate) {
         super(name, price, category);
