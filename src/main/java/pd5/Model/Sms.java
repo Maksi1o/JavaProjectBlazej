@@ -1,4 +1,4 @@
-package pd5;
+package pd5.Model;
 
 public class Sms extends Notification {
     private final String phoneNumber;

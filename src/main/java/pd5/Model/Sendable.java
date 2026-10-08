@@ -1,4 +1,4 @@
-package pd5;
+package pd5.Model;
 
 public interface Sendable {
     void send();

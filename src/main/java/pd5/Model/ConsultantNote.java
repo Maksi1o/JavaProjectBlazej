@@ -1,4 +1,4 @@
-package pd5;
+package pd5.Model;
 
 public class ConsultantNote {
     private final int id;

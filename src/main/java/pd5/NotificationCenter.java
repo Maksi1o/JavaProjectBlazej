@@ -1,5 +1,11 @@
 package pd5;
 
+import pd5.Model.ConsultantNote;
+import pd5.Model.Email;
+import pd5.Model.Sendable;
+import pd5.Model.Sms;
+import pd5.service.NotificationSender;
+
 public class NotificationCenter {
     public static void main(String[] args) {
         Sms sms = new Sms(10,"     22   ", "26.10.2026", "123456789");

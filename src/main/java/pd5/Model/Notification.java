@@ -1,4 +1,4 @@
-package pd5;
+package pd5.Model;
 
 public abstract class Notification implements Sendable {
     protected final int id;

@@ -1,4 +1,6 @@
-package pd5;
+package pd5.service;
+
+import pd5.Model.Sendable;
 
 public class NotificationSender {
     public void sendAll (Sendable[] notifications) {
