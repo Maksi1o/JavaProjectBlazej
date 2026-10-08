@@ -5,10 +5,10 @@ public class Sms extends Notification {
 
     public Sms(int id, String content, String createdAt, String phoneNumber) {
         super(id, content, createdAt);
-        this.phoneNumber = phoneNumber;
         if (phoneNumber == null || phoneNumber.isBlank() || phoneNumber.length() != 9) {
             throw new IllegalArgumentException("Polska gurom");
         }
+        this.phoneNumber = phoneNumber;
     }
 
     @Override

@@ -6,14 +6,14 @@ public class Email extends Notification {
 
     public Email(int id, String content, String createdAt, String receiver, String topic) {
         super(id, content, createdAt);
-        this.receiver = receiver;
-        this.topic = topic;
         if (receiver == null || receiver.isBlank()) {
             throw new IllegalArgumentException("Reciever cannot be empty.");
         }
         if (topic == null || topic.isBlank()) {
             throw new IllegalArgumentException("Topic cannot be empty.");
         }
+        this.receiver = receiver;
+        this.topic = topic;
 
     }
 

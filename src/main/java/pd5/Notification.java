@@ -1,9 +1,9 @@
 package pd5;
 
 public abstract class Notification implements Sendable {
-    protected int id;
+    protected final int id;
     protected String content;
-    protected String createdAt;
+    protected final String createdAt;
     protected boolean sent;
 
     public Notification(int id, String content, String createdAt) {
