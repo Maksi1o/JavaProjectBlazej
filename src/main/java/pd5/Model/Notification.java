@@ -1,20 +1,16 @@
 package pd5.Model;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
+@Getter
+@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class Notification implements Sendable {
     protected final int id;
     protected String content;
     protected final String createdAt;
     protected boolean sent;
-
-    public Notification(int id, String content, String createdAt) {
-        if (content == null || content.isBlank()) {
-            throw new IllegalArgumentException("Content cannot be empty");
-        }
-        this.id = id;
-        this.content = content;
-        this.createdAt = createdAt;
-        this.sent = false;
-    }
 
     protected abstract void validateBeforeSend();
 
@@ -27,7 +23,6 @@ public abstract class Notification implements Sendable {
         }
         validateBeforeSend();
         performSend();
-
         sent = true;
     }
 }

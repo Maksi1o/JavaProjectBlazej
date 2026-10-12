@@ -1,5 +1,11 @@
 package pd5.Model;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
+@Getter
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class ConsultantNote {
     private final int id;
     private String content;
@@ -7,19 +13,17 @@ public class ConsultantNote {
     private final String author;
     private boolean archived;
 
-    public ConsultantNote(int id, String content, String createdAt, String author) {
+    public static ConsultantNote create(int id, String content, String createdAt, String author) {
         if (content == null || content.isBlank()) {
             throw new IllegalArgumentException("Content cannot be empty.");
         }
-        this.id = id;
-        this.content = content;
-        this.createdAt = createdAt;
-        this.author = author;
-        this.archived = false;
+        ConsultantNote note = new ConsultantNote(id, createdAt, author);
+        note.content = content;
+        return note;
     }
 
     public void archive() {
-        if(archived) {
+        if (archived) {
             throw new IllegalArgumentException("Note is already archvied");
         }
         archived = true;
