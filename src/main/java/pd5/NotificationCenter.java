@@ -10,7 +10,7 @@ public class NotificationCenter {
     public static void main(String[] args) {
         Sms sms = new Sms(10,"     22   ", "26.10.2026", "123456789");
         Email email = new Email(22, "Witam dla jego", "11.01.2025", "mieszko1@o2.pl", "Tutaj nic nie ma");
-        ConsultantNote consultantNote = ConsultantNote.create(2398, "Kto mnie podpierdolil", "20.06.2024", "Kowalski");
+        ConsultantNote consultantNote = ConsultantNote.create(2398, "Donos*", "20.06.2024", "Kowalski");
 
         Sendable[] notifications = {email, sms};
 
