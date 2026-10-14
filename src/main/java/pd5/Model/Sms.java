@@ -4,7 +4,7 @@ public class Sms extends Notification {
     private final String phoneNumber;
 
     public Sms(int id, String content, String createdAt, String phoneNumber) {
-        super(id, content, createdAt);
+        super(id, content);
         if (phoneNumber == null || phoneNumber.isBlank() || phoneNumber.length() != 9) {
             throw new IllegalArgumentException("Polska gurom");
         }

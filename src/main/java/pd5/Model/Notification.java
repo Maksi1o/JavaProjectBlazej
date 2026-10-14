@@ -1,16 +1,20 @@
 package pd5.Model;
 
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+import java.time.LocalDate;
+import java.util.concurrent.atomic.AtomicBoolean;
+
 @Getter
-@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class Notification implements Sendable {
     protected final int id;
     protected String content;
-    protected final String createdAt;
-    protected boolean sent;
+    protected final String createdAt = LocalDate.now().toString();
+    protected final AtomicBoolean sent = new AtomicBoolean(false);
 
     protected abstract void validateBeforeSend();
 
@@ -18,11 +22,11 @@ public abstract class Notification implements Sendable {
 
     @Override
     public void send() {
-        if (sent) {
+        if (sent.compareAndSet(false, true)) {
+            validateBeforeSend();
+            performSend();
+        } else {
             throw new IllegalStateException("Notification already sent");
         }
-        validateBeforeSend();
-        performSend();
-        sent = true;
     }
 }

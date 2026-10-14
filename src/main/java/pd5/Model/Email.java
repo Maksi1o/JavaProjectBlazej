@@ -5,7 +5,7 @@ public class Email extends Notification {
     private final String topic;
 
     public Email(int id, String content, String createdAt, String receiver, String topic) {
-        super(id, content, createdAt);
+        super(id, content);
         if (receiver == null || receiver.isBlank()) {
             throw new IllegalArgumentException("Reciever cannot be empty.");
         }
