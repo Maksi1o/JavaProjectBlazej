@@ -22,7 +22,6 @@ public class Main {
 
         UserService userService = new UserService(users);
         userService.changeName(1L, "Mieczyslaw");
-
         System.out.println(allUsers);
 
         Repository<String, Product> products = new Repository<>();
