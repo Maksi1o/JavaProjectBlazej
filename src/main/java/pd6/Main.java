@@ -15,8 +15,8 @@ public class Main {
         users.addEntity(2L, new User(2L, "Wojtek"));
         users.addEntity(3L, new User(3L, "Jarek"));
         System.out.println(users.findEntity(5L));
-        users.removeEntity(2L);
 
+        users.removeEntity(2L);
         Collection<User> allUsers = users.getAllEntities();
         System.out.println(allUsers);
 
@@ -25,13 +25,12 @@ public class Main {
         System.out.println(allUsers);
 
         Repository<String, Product> products = new Repository<>();
-
         products.addEntity("Laptop", new Product("Hp eliteBook", 2500));
         products.addEntity("Telefon", new Product("Blueberry", 500));
         products.addEntity("Karta Graficzna", new Product("Nvidia RTX 5090", 30000));
         System.out.println(products.findEntity("Laptop"));
-        products.removeEntity("Laptop");
 
+        products.removeEntity("Laptop");
         Collection<Product> allProducts = products.getAllEntities();
         System.out.println(allProducts);
     }
