@@ -25,7 +25,7 @@ public class OperationResult<T> {
 
     public static <T> OperationResult<T> success(T value) {
         if (value == null) {
-            throw new IllegalArgumentException("Value cannot be null");
+            throw new IllegalArgumentException("Value cannot be null ");
         }
 
         return new OperationResult<>(true, value, null);
