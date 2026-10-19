@@ -13,7 +13,7 @@ public class UserService {
     }
 
     public void changeName(Long id, String name) {
-        Optional<User> findUser = userRepository.findEntity(id);
+        Optional<User> findUser = userRepository.findById(id);
         findUser.ifPresent(user -> user.changeName(name));
     }
 }

@@ -11,13 +11,14 @@ public class Main {
     public static void main(String[] args) {
         Repository<Long, User> users = new Repository<>();
 
-        users.addEntity(1L, new User(1L, "Bartek"));
-        users.addEntity(2L, new User(2L, "Wojtek"));
-        users.addEntity(3L, new User(3L, "Jarek"));
-        System.out.println(users.findEntity(5L));
+        users.save(new User(1L, "Bartek"));
+        users.save(new User(2L, "Wojtek"));
+        users.save(new User(3L, "Jarek"));
+        System.out.println(users.findById(5L));
 
-        users.removeEntity(2L);
-        Collection<User> allUsers = users.getAllEntities();
+        users.deleteById(2L);
+
+        Collection<User> allUsers = users.getAll();
         System.out.println(allUsers);
 
         UserService userService = new UserService(users);
@@ -25,13 +26,16 @@ public class Main {
         System.out.println(allUsers);
 
         Repository<String, Product> products = new Repository<>();
-        products.addEntity("Laptop", new Product("Hp eliteBook", 2500));
-        products.addEntity("Telefon", new Product("Blueberry", 500));
-        products.addEntity("Karta Graficzna", new Product("Nvidia RTX 5090", 30000));
-        System.out.println(products.findEntity("Laptop"));
 
-        products.removeEntity("Laptop");
-        Collection<Product> allProducts = products.getAllEntities();
+        products.save(new Product("Hp eliteBook", 2500));
+        products.save(new Product("Blueberry", 500));
+        products.save(new Product("Nvidia RTX 5090", 30000));
+
+        System.out.println(products.findById("Hp eliteBook"));
+
+        products.deleteById("Hp eliteBook");
+
+        Collection<Product> allProducts = products.getAll();
         System.out.println(allProducts);
     }
 }

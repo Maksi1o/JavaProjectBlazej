@@ -1,18 +1,15 @@
 package pd6.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
 
+@AllArgsConstructor
 @ToString
 @Getter
-public class User {
+public class User implements EntityIdentifiable<Long> {
     private final Long id;
     private String name;
-
-    public User(Long id, String name) {
-        this.id = id;
-        this.name = name;
-    }
 
     public void changeName(String newName) {
         this.name = newName;

@@ -1,24 +1,29 @@
 package pd6.repository;
 
+import pd6.model.EntityIdentifiable;
+
 import java.util.*;
 
-public class Repository<K, V> {
-    private final Map<K, V> entityBase = new HashMap<>();
+public class Repository<ID, E extends EntityIdentifiable<ID>> {
+    private final Map<ID, E> storage = new HashMap<>();
 
-    public void addEntity(K key, V value) {
-        entityBase.put(key, value);
+    public void save(E entity) {
+        storage.put(entity.getId(), entity);
     }
 
-    public Optional<V> findEntity(K key) {
-        return Optional.ofNullable(entityBase.get(key));
+    public Optional<E> findById(ID id) {
+        return Optional.ofNullable(storage.get(id));
     }
 
-    public void removeEntity(K key) {
-        entityBase.remove(key);
+    public void deleteById(ID id) {
+        if (storage.isEmpty()) {
+            throw new IllegalStateException("Id does not exist.");
+        } else {
+            storage.remove(id);
+        }
     }
 
-    public Collection<V> getAllEntities() {
-        Collection<V> values = entityBase.values();
-        return values;
+    public Collection<E> getAll() {
+        return storage.values();
     }
 }
