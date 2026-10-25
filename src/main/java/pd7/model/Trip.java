@@ -14,5 +14,4 @@ public class Trip {
     private TransportType transport;
     private final BigDecimal price;
     private int duration;
-
 }

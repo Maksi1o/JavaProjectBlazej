@@ -11,5 +11,4 @@ public class User {
     private final String name;
     private TransportType preferredTransport;
     private BigDecimal budget;
-
 }
