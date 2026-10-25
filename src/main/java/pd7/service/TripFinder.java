@@ -16,13 +16,22 @@ public class TripFinder {
     }
 
     public Optional<Trip> findBestTrip(User user, List<Trip> trips) {
+        boolean hasCriteria = user.getPreferredTransport() != null || user.getBudget() != null;
+
+        if (!hasCriteria)
+            return Optional.empty();
+
         for (Trip trip : trips) {
-            if ((user.getPreferredTransport() != null || user.getBudget() != null)
-                && (user.getPreferredTransport() == null || user.getPreferredTransport() == trip.getTransport())
-                && (user.getBudget() == null || trip.getPrice().compareTo(user.getBudget()) <= 0)) {
+            boolean transportMatches = user.getPreferredTransport() == null
+                || user.getPreferredTransport() == trip.getTransport();
+
+            boolean budgetMatches = user.getBudget() == null
+                || trip.getPrice().compareTo(user.getBudget()) <= 0;
+
+            if (transportMatches && budgetMatches)
                 return Optional.of(trip);
-            }
         }
+
         return Optional.empty();
     }
 
