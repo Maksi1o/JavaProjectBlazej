@@ -16,12 +16,11 @@ public class TripFinder {
         List<Trip> trips, String destinationName) {
         for (Trip trip : trips) {
 
-            boolean destinationMatches = Optional.ofNullable(trip.getDestination())
+            var matchedDestination = Optional.ofNullable(trip.getDestination())
                 .map(Destination::name)
-                .filter(destinationName::equals)
-                .isPresent();
+                .filter(destinationName::equals);
 
-            if (destinationMatches) {
+            if (matchedDestination.isPresent()) {
                 return Optional.of(trip);
             }
         }
