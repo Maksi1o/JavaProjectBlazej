@@ -7,7 +7,7 @@ import java.util.function.Predicate;
 public class EventFilters {
    public static final Predicate<Event> HIGH_PRIORITY = event -> event != null && event.getPriority() > 5;
 
-    public static final Predicate<Event> ERROR_MESSAGE = event -> {
+    public static final Predicate<Event> IS_ERROR = event -> {
         if (event == null ||
             event.getMessage() == null ||
             event.getMessage().isBlank()) {

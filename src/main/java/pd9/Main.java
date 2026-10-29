@@ -23,13 +23,13 @@ public class Main {
 
         List<Predicate<Event>> filters = List.of(
             EventFilters.HIGH_PRIORITY,
-            EventFilters.ERROR_MESSAGE);
+            EventFilters.IS_ERROR);
 
         List<Predicate<Event>> priorityFilters = List.of(
             EventFilters.HIGH_PRIORITY);
 
         List<Predicate<Event>> errorFilters = List.of(
-            EventFilters.ERROR_MESSAGE);
+            EventFilters.IS_ERROR);
 
         Consumer<String> output = System.out::println;
 

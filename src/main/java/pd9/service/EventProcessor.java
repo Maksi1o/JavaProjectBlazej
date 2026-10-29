@@ -9,6 +9,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 public class EventProcessor {
+
     public void process(List<Event> events,
                         List<Predicate<Event>> filters,
                         Function<Event, String> formatter,
@@ -19,11 +20,11 @@ public class EventProcessor {
         Objects.requireNonNull(formatter, "Formatter cannot be null");
         Objects.requireNonNull(output, "Output cannot be null");
 
-        if(filters.contains(null))
+        if (filters.contains(null)) {
             throw new IllegalArgumentException("Filters cannot contain null");
+        }
 
         events.forEach(event -> {
-
             if (event == null) {
                 return;
             }
