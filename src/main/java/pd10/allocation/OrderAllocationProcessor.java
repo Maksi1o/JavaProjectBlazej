@@ -4,6 +4,7 @@ import pd10.model.ClientType;
 import pd10.model.Order;
 
 import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.UnaryOperator;
@@ -14,7 +15,7 @@ public class OrderAllocationProcessor {
     public static List<Order> sortOrders(List<Order> orders) {
         return orders.stream()
             .sorted(
-                Comparator.comparing((Order order) -> order.getTier() == ClientType.GOLD)
+                Comparator.comparing((Order order) -> order.tier() == ClientType.GOLD)
                     .reversed()
                     .thenComparing(
                         OrderAllocationProcessor::calculateOrderValue,
@@ -25,7 +26,7 @@ public class OrderAllocationProcessor {
     }
 
     private static BigDecimal calculateOrderValue(Order order) {
-        return order.getItems().stream()
+        return order.items().stream()
             .map(item -> item.getUnitPrice()
                 .multiply(BigDecimal.valueOf(item.getQuantity())))
             .reduce(BigDecimal.ZERO, BigDecimal::add);
@@ -57,7 +58,7 @@ public class OrderAllocationProcessor {
     ) {
         AllocationBatch initialBatch = new AllocationBatch(
             initialWarehouse,
-            List.of()
+            Collections.emptyList()
         );
 
         return sortOrders(orders).stream()

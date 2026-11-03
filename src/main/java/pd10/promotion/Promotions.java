@@ -13,7 +13,7 @@ public final class Promotions {
     public static final Promotion MILK_THREE_FOR_TWO =
         context -> {
             BigDecimal discount = context.order()
-                .getItems()
+                .items()
                 .stream()
                 .filter(item -> item.getProduct().equalsIgnoreCase("MILK"))
                 .map(item -> item.getUnitPrice().multiply(
@@ -32,7 +32,7 @@ public final class Promotions {
                 new BigDecimal("0.90")
             )
         )).when(context ->
-            context.order().getTier() == ClientType.GOLD
+            context.order().tier() == ClientType.GOLD
         );
 
     public static final Promotion ORDER_DISCOUNT =

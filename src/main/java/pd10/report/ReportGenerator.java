@@ -18,81 +18,81 @@ public class ReportGenerator {
 
     public static Map<ClientType, OrderReport> generate(List<AllocationResult> results) {
         Map<ClientType, List<AllocationResult>> groupedResults = results.stream()
-                .collect(Collectors.groupingBy(
-                        result -> result.originalOrder().getTier()
-                ));
+            .collect(Collectors.groupingBy(
+                result -> result.originalOrder().tier()
+            ));
 
         return groupedResults.entrySet()
-                .stream()
-                .collect(Collectors.toMap(
-                        Map.Entry::getKey,
-                        entry -> buildReport(
-                                entry.getKey(),
-                                entry.getValue())
+            .stream()
+            .collect(Collectors.toMap(
+                Map.Entry::getKey,
+                entry -> buildReport(
+                    entry.getKey(),
+                    entry.getValue())
 
-                ));
+            ));
     }
 
     private static OrderReport buildReport(ClientType tier, List<AllocationResult> results) {
         long rejectedCount = results.stream()
-                .filter(result ->
-                        result.status() == AllocationStatus.REJECTED)
-                .count();
+            .filter(AllocationResult::isRejected)
+            .count();
 
         BigDecimal revenue = results.stream()
-                .filter(result ->
-                        result.status() != AllocationStatus.REJECTED)
-                .map(result -> PromotionCalculator.calculate(result.fulfilledOrder()))
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+            .filter(result ->
+                result.status() != AllocationStatus.REJECTED)
+            .map(result -> PromotionCalculator.calculate(result.fulfilledOrder()))
+            .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         List<Order> topOrders = results.stream()
-                .filter(result -> result.status() != AllocationStatus.REJECTED)
-                .map(AllocationResult::fulfilledOrder)
-                .collect(topTwoCollector());
+            .filter(result -> result.status() != AllocationStatus.REJECTED)
+            .map(AllocationResult::fulfilledOrder)
+            .collect(topTwoCollector());
 
         return new OrderReport(
-                tier,
-                revenue,
-                rejectedCount,
-                topOrders
+            tier,
+            revenue,
+            rejectedCount,
+            topOrders
         );
     }
 
     private static Collector<Order, List<Order>, List<Order>> topTwoCollector() {
+
         return Collector.of(
-                ArrayList::new,
-                (list, order) -> {
-                    list.add(order);
+            ArrayList::new,
 
-                    list.sort(
-                            Comparator.comparing(
-                                    PromotionCalculator::calculate,
-                                    Comparator.reverseOrder()
-                            )
-                    );
-
-                    if (list.size() > 2) {
-                        list.remove(2);
-                    }
-                },
-                (left, right) -> {
-                    left.addAll(right);
-
-                    left.sort(
-                            Comparator.comparing(
-                                    PromotionCalculator::calculate,
-                                    Comparator.reverseOrder()
-                            )
-                    );
-
-                    if (left.size() > 2) {
-                        left.subList(2, left.size()).clear();
-                    }
-
-                    return left;
-                },
-
-                List::copyOf
+            (list, order) -> {
+                list.add(order);
+                list.sort(
+                    Comparator.comparing(
+                        PromotionCalculator::calculate,
+                        Comparator.reverseOrder()
+                    )
                 );
+
+                if (list.size() > 2) {
+                    list.remove(2);
+                }
+            },
+
+            (left, right) -> {
+                left.addAll(right);
+                left.sort(
+                    Comparator.comparing(
+                        PromotionCalculator::calculate,
+                        Comparator.reverseOrder()
+                    )
+                );
+
+                if (left.size() > 2) {
+                    left.subList(2, left.size()).clear();
+                }
+
+                return left;
+            },
+
+            List::copyOf
+        );
     }
 }

@@ -5,13 +5,13 @@ import java.util.function.Predicate;
 @FunctionalInterface
 public interface Promotion {
 
-    PriceContext apply(PriceContext context);
+    PromotionContext apply(PromotionContext context);
 
     default Promotion andThen(Promotion next) {
         return context -> next.apply(this.apply(context));
     }
 
-    default Promotion when(Predicate<PriceContext> condition) {
+    default Promotion when(Predicate<PromotionContext> condition) {
         return context -> condition.test(context)
             ? this.apply(context)
             : context;

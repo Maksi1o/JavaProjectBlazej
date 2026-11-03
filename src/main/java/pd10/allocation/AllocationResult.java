@@ -8,4 +8,8 @@ public record AllocationResult(
     AllocationStatus status,
     Order originalOrder
 ) {
+
+    public boolean isRejected () {
+        return status == AllocationStatus.REJECTED;
+    }
 }

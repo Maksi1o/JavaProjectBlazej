@@ -7,10 +7,10 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public record OrderReport(
-        ClientType tier,
-        BigDecimal revenue,
-        long rejectedCount,
-        List<Order> topOrders
+    ClientType tier,
+    BigDecimal revenue,
+    long rejectedCount,
+    List<Order> topOrders
 ) {
     public OrderReport {
         topOrders = List.copyOf(topOrders);

@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 
 @Getter
 @AllArgsConstructor
-public class OrderItem {
+public class Product {
     private final String Product;
     private final int quantity;
     private final BigDecimal unitPrice;

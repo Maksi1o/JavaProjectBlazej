@@ -18,14 +18,14 @@ public final class PromotionCalculator {
 
     public static BigDecimal calculate(Order order) {
 
-        BigDecimal originalTotal = order.getItems()
+        BigDecimal originalTotal = order.items()
             .stream()
             .map(item -> item.getUnitPrice().multiply(
                 BigDecimal.valueOf(item.getQuantity())
             ))
             .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-        PriceContext context = new PriceContext(
+        PromotionContext context = new PromotionContext(
             order,
             originalTotal,
             originalTotal

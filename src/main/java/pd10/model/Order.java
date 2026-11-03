@@ -1,23 +1,21 @@
 package pd10.model;
 
-import lombok.Getter;
-
 import java.util.List;
 
-@Getter
-public class Order {
-    private final String orderId;
-    private final String customerId;
-    private final ClientType tier;
-    private final List<OrderItem> items;
 
-    public Order (String orderId,
-                  String customerId,
-                  ClientType tier,
-                  List<OrderItem> orderItems) {
+public record Order(String orderId,
+                    String customerId,
+                    ClientType tier,
+                    List<Product> items) {
+
+
+    public Order(String orderId,
+                 String customerId,
+                 ClientType tier,
+                 List<Product> items) {
         this.orderId = orderId;
         this.customerId = customerId;
         this.tier = tier;
-        this.items = List.copyOf(orderItems);
+        this.items = List.copyOf(items);
     }
 }

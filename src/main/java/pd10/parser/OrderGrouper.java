@@ -1,7 +1,7 @@
 package pd10.parser;
 
 import pd10.model.Order;
-import pd10.model.OrderItem;
+import pd10.model.Product;
 import pd10.model.OrderLine;
 
 import java.util.List;
@@ -38,8 +38,8 @@ public class OrderGrouper {
             );
         }
 
-        List<OrderItem> items = lines.stream()
-            .map(line -> new OrderItem(
+        List<Product> items = lines.stream()
+            .map(line -> new Product(
                 line.getProduct(),
                 line.getQuantity(),
                 line.getUnitPrice()
