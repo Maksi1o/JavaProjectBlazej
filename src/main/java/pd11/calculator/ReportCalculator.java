@@ -3,6 +3,7 @@ package pd11.calculator;
 import pd11.model.CategorySummary;
 import pd11.model.Product;
 import pd11.model.ProductRevenue;
+import pd11.model.Report;
 import pd11.model.Sale;
 
 import java.math.BigDecimal;
@@ -11,18 +12,34 @@ import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class SaleCalculator {
+public class ReportCalculator {
 
-    public BigDecimal calculateTotalRevenue(List<Sale> sales) {
+    private static final int TOP_PRODUCTS_LIMIT = 3;
+    private static final int PRICE_SCALE = 2;
+    private static final RoundingMode PRICE_ROUNDING = RoundingMode.HALF_UP;
+
+    public Report generateReport(List<Sale> sales) {
+        Objects.requireNonNull(sales, "sales cannot be null");
+
+        return new Report(
+            calculateTotalRevenue(sales),
+            calculateTopProducts(sales),
+            calculateCategorySummaries(sales),
+            calculateBestSalesDay(sales).orElse(null)
+        );
+    }
+
+    private BigDecimal calculateTotalRevenue(List<Sale> sales) {
         return sales.stream()
             .map(Sale::revenue)
             .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
-    public List<ProductRevenue> calculateTop3Products(List<Sale> sales) {
+    private List<ProductRevenue> calculateTopProducts(List<Sale> sales) {
         Map<Product, List<Sale>> salesByProduct = sales.stream()
             .collect(Collectors.groupingBy(Sale::product));
 
@@ -33,45 +50,42 @@ public class SaleCalculator {
             ))
             .sorted(Comparator.comparing(ProductRevenue::revenue).reversed()
                 .thenComparing(result -> result.product().productId()))
-            .limit(3)
+            .limit(TOP_PRODUCTS_LIMIT)
             .toList();
     }
 
-    public List<CategorySummary> calculateCategorySummaries(List<Sale> sales) {
+    private List<CategorySummary> calculateCategorySummaries(List<Sale> sales) {
         Map<String, List<Sale>> salesByCategory = sales.stream()
             .collect(Collectors.groupingBy(sale -> sale.product().category()));
 
         return salesByCategory.entrySet().stream()
-            .map(entry -> {
-                List<Sale> categorySales = entry.getValue();
-                BigDecimal revenue = calculateTotalRevenue(categorySales);
-
-                BigDecimal totalPrices = categorySales.stream()
-                    .map(Sale::unitPrice)
-                    .reduce(BigDecimal.ZERO, BigDecimal::add);
-
-                BigDecimal averagePrice = totalPrices.divide(
-                    BigDecimal.valueOf(categorySales.size()),
-                    2,
-                    RoundingMode.HALF_UP
-                );
-
-                return new CategorySummary(entry.getKey(), revenue, averagePrice);
-            })
+            .map(entry -> createCategorySummary(entry.getKey(), entry.getValue()))
             .sorted(Comparator.comparing(CategorySummary::revenue).reversed()
                 .thenComparing(CategorySummary::category))
             .toList();
     }
 
-    public Optional<LocalDate> calculateBestSalesDay(List<Sale> sales) {
+    private CategorySummary createCategorySummary(String category, List<Sale> categorySales) {
+        BigDecimal revenue = calculateTotalRevenue(categorySales);
+
+        BigDecimal totalPrices = categorySales.stream()
+            .map(Sale::unitPrice)
+            .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        BigDecimal averagePrice = totalPrices.divide(
+            BigDecimal.valueOf(categorySales.size()),
+            PRICE_SCALE,
+            PRICE_ROUNDING
+        );
+
+        return new CategorySummary(category, revenue, averagePrice);
+    }
+
+    private Optional<LocalDate> calculateBestSalesDay(List<Sale> sales) {
         Map<LocalDate, BigDecimal> revenueByDay = sales.stream()
             .collect(Collectors.groupingBy(
                 Sale::date,
-                Collectors.reducing(
-                    BigDecimal.ZERO,
-                    Sale::revenue,
-                    BigDecimal::add
-                )
+                Collectors.reducing(BigDecimal.ZERO, Sale::revenue, BigDecimal::add)
             ));
 
         return revenueByDay.entrySet().stream()

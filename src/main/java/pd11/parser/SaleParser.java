@@ -10,11 +10,15 @@ import java.time.format.DateTimeParseException;
 
 public class SaleParser {
 
-    public OperationResult<Sale> parse(String line) {
-        String[] fields = line.split(",", -1);
+    private static final String SEPARATOR = ",";
+    private static final int EXPECTED_COLUMNS = 6;
 
-        if (fields.length != 6) {
-            return OperationResult.failure("Expected 6 columns, got: " + fields.length);
+
+    public OperationResult<Sale> parse(String line) {
+        String[] fields = line.split(SEPARATOR, -1);
+
+        if (fields.length != EXPECTED_COLUMNS) {
+            return failure(line, "expected " + EXPECTED_COLUMNS + " columns, got " + fields.length);
         }
 
         try {
@@ -25,20 +29,16 @@ public class SaleParser {
             int quantity = Integer.parseInt(fields[4].strip());
             BigDecimal unitPrice = new BigDecimal(fields[5].strip());
 
-            if (productId.isBlank() || productName.isBlank() || category.isBlank()) {
-                return OperationResult.failure("Product fields cannot be empty");
-            }
-
-            if (quantity <= 0 || unitPrice.signum() < 0) {
-                return OperationResult.failure("Invalid quantity or unit price");
-            }
-
             Product product = new Product(productId, productName, category);
             Sale sale = new Sale(date, product, quantity, unitPrice);
 
             return OperationResult.success(sale);
-        } catch (NumberFormatException | DateTimeParseException e) {
-            return OperationResult.failure(e.getMessage());
+        } catch (DateTimeParseException | IllegalArgumentException e) {
+            return failure(line, e.getMessage());
         }
+    }
+
+    private OperationResult<Sale> failure(String line, String reason) {
+        return OperationResult.failure("Skipping line [" + line + "]: " + reason);
     }
 }
