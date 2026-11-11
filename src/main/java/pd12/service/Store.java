@@ -12,6 +12,7 @@ public class Store {
 
     public synchronized OrderResult processOrder(Order order) {
         Objects.requireNonNull(order, "Order cannot be null.");
+
         if (order.requestedQuantity() > availableQuantity) {
             return new OrderResult(OrderStatus.REJECTED, order);
         }

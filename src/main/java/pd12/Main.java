@@ -4,7 +4,6 @@ import pd12.model.Order;
 import pd12.model.OrderResult;
 import pd12.service.Store;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -18,16 +17,11 @@ public class Main {
 
         Store store = new Store();
 
-        List<CompletableFuture<OrderResult>> futures = new ArrayList<>();
+        List<CompletableFuture<OrderResult>> futures = orders.stream()
+            .map(order -> CompletableFuture.supplyAsync(() -> store.processOrder(order)))
+            .toList();
 
-        for (Order order : orders) {
-            CompletableFuture<OrderResult> future = CompletableFuture.supplyAsync(() -> store.processOrder(order));
-            futures.add(future);
-        }
-
-        for (CompletableFuture<OrderResult> future : futures) {
-            System.out.println(future.join());
-        }
+        futures.forEach(future -> System.out.println(future.join()));
 
         System.out.println("Sold: " + store.getSoldQuantity() + "\nAvailable: " + store.getAvailableQuantity());
     }
