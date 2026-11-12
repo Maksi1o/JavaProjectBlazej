@@ -6,7 +6,7 @@ import pd12.model.OrderStatus;
 
 import java.util.Objects;
 
-public class Store {
+public class OrderService {
     private static final int INITIAL_QUANTITY = 10;
     private int availableQuantity = INITIAL_QUANTITY;
 
@@ -25,7 +25,7 @@ public class Store {
         return availableQuantity;
     }
 
-    public synchronized int getSoldQuantity() {
+    public synchronized int getSoldCount() {
         return INITIAL_QUANTITY - getAvailableQuantity();
     }
 }
