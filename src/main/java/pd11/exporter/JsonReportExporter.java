@@ -19,7 +19,7 @@ public class JsonReportExporter implements ReportExporter {
     }
 
     @Override
-    public void export(Report report, Path path) throws IOException {
+    public void exportToFile(Report report, Path path) throws IOException {
         objectMapper.writerWithDefaultPrettyPrinter()
             .writeValue(path.toFile(), report);
     }

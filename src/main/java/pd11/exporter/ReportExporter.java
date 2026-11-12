@@ -7,5 +7,8 @@ import java.nio.file.Path;
 
 public interface ReportExporter {
 
-    void export(Report report, Path path) throws IOException;
+    ReportExporter JSON_EXPORTER = new JsonReportExporter();
+    ReportExporter CSV_EXPORTER = new CsvReportExporter();
+
+    void exportToFile(Report report, Path path) throws IOException;
 }

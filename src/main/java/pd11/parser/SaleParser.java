@@ -9,10 +9,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
 public class SaleParser {
-
     private static final String SEPARATOR = ",";
     private static final int EXPECTED_COLUMNS = 6;
-
 
     public OperationResult<Sale> parse(String line) {
         String[] fields = line.split(SEPARATOR, -1);

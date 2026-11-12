@@ -17,7 +17,7 @@ public class CsvReportExporter implements ReportExporter {
     private static final String QUOTE = "\"";
 
     @Override
-    public void export(Report report, Path path) throws IOException {
+    public void exportToFile(Report report, Path path) throws IOException {
         List<String> lines = new ArrayList<>();
         lines.add(HEADER);
 
