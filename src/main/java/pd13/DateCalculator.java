@@ -2,6 +2,8 @@ package pd13;
 
 import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.time.format.ResolverStyle;
 import java.util.Locale;
 
 public final class DateCalculator {
@@ -53,6 +55,11 @@ public final class DateCalculator {
     }
 
     public static boolean isValidDate(String input, String pattern) {
-        return false;
+        try {
+            LocalDate.parse(input, DateTimeFormatter.ofPattern(pattern).withResolverStyle(ResolverStyle.STRICT));
+            return true;
+        } catch (DateTimeParseException e) {
+            return false;
+        }
     }
 }
