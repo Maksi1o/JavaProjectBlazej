@@ -1,21 +1,16 @@
 package pd14.service;
 
-import entity.Book;
+import pd14.dto.BookDto;
+import pd14.dto.CreateBookRequest;
 
 import java.util.List;
 
 public interface BookService {
+    BookDto addBook(CreateBookRequest request);
 
-    void addBook(Book book);
+    BookDto findByIsbn(String isbn);
 
-    /**
-     * @throws exceptions.BookNotFoundException when no book with given ISBN was found.
-     */
-    Book findByIsbn(String isbn);
+    List<BookDto> findAvailable();
 
-    List<Book> findAvailable();
-
-    List<Book> search(String query);
-
-    Book findById (long id);
+    List<BookDto> search(String query);
 }

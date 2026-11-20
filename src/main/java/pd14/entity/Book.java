@@ -1,42 +1,29 @@
 package pd14.entity;
 
-import exceptions.BookNotAvailableException;
 import lombok.Getter;
-
+import pd14.exceptions.BookNotAvailableException;
+import pd14.validator.Validation;
 
 @Getter
 public class Book {
-    private final long id;
+    private Long id;
     private final String isbn;
     private final String title;
     private final String author;
     private final int year;
     private int availableCopies;
 
-    public Book(long id, String isbn, String title, String author, int year, int availableCopies) {
-        if (availableCopies < 0) {
-            throw new IllegalArgumentException("Available copies cannot be negative.");
-        }
-        if (isbn == null || isbn.isBlank()) {
-            throw new IllegalArgumentException("ISBN cannot be blank.");
-        }
-        if (title == null || title.isBlank()) {
-            throw new IllegalArgumentException("Title cannot be blank.");
-        }
-        if (author == null || author.isBlank()) {
-            throw new IllegalArgumentException("Author cannot be blank.");
-        }
-        this.id = id;
-        this.isbn = isbn;
-        this.title = title;
-        this.author = author;
-        this.year = year;
-        this.availableCopies = availableCopies;
+    public Book(String isbn, String title, String author, int year, int availableCopies) {
+        this.isbn = Validation.requireNotBlank(isbn, "isbn");
+        this.title = Validation.requireNotBlank(title, "title");
+        this.author = Validation.requireNotBlank(author, "author");
+        this.year = Validation.requireNonNegative(year, "year");
+        this.availableCopies = Validation.requireNonNegative(availableCopies, "availableCopies");
     }
 
     public void borrow() {
         if (!isAvailable()) {
-            throw new BookNotAvailableException("There are no more copies.");
+            throw new BookNotAvailableException(isbn);
         }
         availableCopies--;
     }
@@ -45,7 +32,14 @@ public class Book {
         availableCopies++;
     }
 
-    public boolean isAvailable () {
+    public void assignId(Long id) {
+        if (this.id != null) {
+            throw new IllegalStateException("Id already assigned.");
+        }
+        this.id = id;
+    }
+
+    public boolean isAvailable() {
         return availableCopies > 0;
     }
 }

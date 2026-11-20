@@ -1,15 +1,15 @@
 package pd14.service;
 
-import entity.Loan;
-import entity.Member;
+import pd14.dto.LoanDto;
+import pd14.dto.MemberDto;
+import pd14.dto.RegisterMemberRequest;
 
 import java.util.List;
 
 public interface MemberService {
-    void register(Member member);
+    MemberDto register(RegisterMemberRequest request);
 
-    Member findById(long id);
+    MemberDto findById(Long id);
 
-    List<Loan> getActiveLoans(long memberId);
-
+    List<LoanDto> getActiveLoans(Long memberId);
 }
